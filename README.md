@@ -1,8 +1,10 @@
 # CineBookin Project
 ## Overview
-This project is a web application for cinema reservations. 
+This project is a web application for cinema reservations. <br/>
 It consists of a Laravel API backend and a React frontend alse we used the API Youtube to show the video trailer.
-
+## Contributors
+. <a href="https://www.linkedin.com/in/zineb-essoussi-5301581b6/">Zineb Essoussi</a> <br/>
+. <a href="https://www.linkedin.com/in/safae-rabbouzi-b80621209/">Safae Rabbouzi</a>
 ## Screen 
 ![Screenshot 2024-01-03 at 22-23-30 Vite React](https://github.com/DesignToWebsite/projet/assets/74991230/eb40ac6d-0234-4f91-a022-f5dea420d044)
 ![Screenshot 2024-01-03 at 22-24-10 Vite React](https://github.com/DesignToWebsite/projet/assets/74991230/c90b956c-71f7-4c43-97f6-bcc68a52e87e)
@@ -14,6 +16,6 @@ It consists of a Laravel API backend and a React frontend alse we used the API Y
 
 
 ## Technologies Used
-**Backend:** Laravel API + Youtube API
-**Frontend:** React
-**Database:** MySQL
+**Backend:** Laravel API + Youtube API <br/>
+**Frontend:** React <br/>
+**Database:** MySQL <br/>
