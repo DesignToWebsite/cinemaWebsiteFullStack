@@ -1,0 +1,34 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    
+}
+
+
+.slider1{
+    width: 100%;
+    height: 100%;
+   
+}
+
+.title{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.personage{
+    display: flex ;
+    align-items: center;
+    justify-content: space-between;
+}
+ .principale-persona .Title-for-mainCharacter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.principale-h2{
+    color: #bc0404;
+    font-weight: bold;
+    margin-top: 2rem;
+}

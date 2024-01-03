@@ -1,0 +1,317 @@
+/* styles.css */
+
+/* Variables */
+
+:root {
+    --menu-width: 350px;
+    --scene-width: 1000px;
+    --scene-height: 400px;
+  }
+  
+  /* Colors and Pictograms */
+  :root {
+    --color-strawberry: #d64541;
+    --color-banana: #f5d76e;
+    --color-apple: #00b16a;
+    --color-orange: #f27935;
+    --color-white: #fff;
+    --color-gray: #eee;
+  }
+  
+  /* Pictograms */
+  :root {
+    --picto-strawberry: url("../images/Daenerys.jpg");
+    --picto-banana: url("../images/EddardStark.jpg");
+    --picto-apple: url("../images/Kit_Harington.jpeg");
+    --picto-orange: url("../images/Kit_Harington.jpeg");
+  }
+  
+  /* Functions */
+ 
+  /* Keyframes */
+  @keyframes slidein {
+    0% {
+      top: calc(-1 * var(--scene-height));
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+      top: 0;
+    }
+  }
+  
+  @keyframes slideout {
+    0% {
+      top: 0;
+      opacity: 1;
+    }
+  
+    100% {
+      top: calc(-1 * var(--scene-height));
+      opacity: 0;
+    }
+  }
+  
+  /* Body Styles */
+  body {
+    background: var(--color-gray);
+    font-family: "Tahoma";
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Scene Styles */
+  #scene {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    min-height: 100vh;
+    width: var(--scene-width);
+    /* height: var(--scene-height); */
+    position: absolute;
+    top: 10em;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: rgba(0,0,0,0.8);
+   
+    overflow: hidden;
+  }
+  
+  /* Left Zone Styles */
+  #left-zone {
+
+    height: 75%;
+    flex-grow: 0;
+    display: flex;
+    width: var(--menu-width);
+    align-items: center;
+    justify-content: left;
+    margin-bottom: -4rem;
+  }
+  
+  .list {
+    display: flex;
+    list-style: none;
+    align-content: stretch;
+    flex-direction: column;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .list li.item input[type="radio"] {
+    display: none;
+  }
+  
+  .list li.item label {
+    display: block;
+    opacity: 0.5;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+    &:hover {
+      opacity: 0.75;
+      cursor: pointer;
+    }
+  }
+  
+  .list li.item label.label_strawberry:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+    background-image: var(--picto-strawberry);
+    background-position: center;
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+  }
+  
+  .list li.item label.label_banana:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+    background-image: var(--picto-banana);
+    background-position: center;
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+  }
+  
+  .list li.item label.label_apple:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+    background-image: var(--picto-apple);
+    background-position: center;
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+  }
+  
+  .list li.item label.label_orange:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+    background-image: var(--picto-orange);
+    background-position: center;
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+  }
+  
+  .list li.item input[type="radio"]:checked ~ label {
+    opacity: 1;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+    &:hover {
+      opacity: 0.75;
+      cursor: pointer;
+    }
+  }
+  
+  .list li.item input[type="radio"]:checked ~ .content {
+    animation-duration: 0.75s;
+    animation-name: slidein;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  }
+  
+  /* Content Styles */
+  .list li.item .content {
+    position: absolute;
+    left: 400px;
+    top: calc(-1 * var(--scene-height));
+    width: calc(var(--scene-width) - var(--menu-width));
+    height: var(--scene-height);
+    animation-duration: 0.75s;
+    animation-name: slideout;
+    animation-timing-function: ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .list li.item .content .picto {
+    height: 114px;
+    width: 107px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+  right: 19rem;
+  top: 8rem;
+  border-radius: 50%;
+  }
+  
+  
+  
+  /* Ajoutez des règles similaires pour chaque personnage avec la bonne propriété background-image */
+  
+  
+  
+  .list li.item .content h1 {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+    color: #bc0404; /* Default color, change as needed */
+    
+  }
+  
+  .list li.item .content p {
+    max-width: 50%;
+    text-align: center;
+    color: white;
+    text-align:start;
+  }
+  
+ 
+  
+  /* Right Zone Styles */
+  #right-zone {
+    height: 100%;
+    flex-grow: 3;
+    
+  }
+  @media  screen and (max-width:1376px) {
+    /* #scene{
+      top: 45rem;
+      
+    
+
+    } */
+    #left-zone{
+      width: auto;
+    }
+   
+    
+  }
+  @media  screen and (max-width:1248px) {
+    /* #scene{
+      top: 75rem;
+      
+    
+
+    } */
+    #left-zone{
+      width: auto;
+    }
+   
+    
+  }
+  
+  @media  screen and (max-width:999px){
+    .list li.item .content{
+      left: -100px;
+    }
+    .list li.item .content .picto{
+      display: none;
+    }
+  }
+
+  @media  screen and (max-width:998px){
+    #scene{
+      width: 401px;
+      /* top: 73rem; */
+    }
+
+  }
+  @media  screen and (max-width:534px){
+    .list li.item .content .picto{
+      right: 0rem;
+    }
+    .gallery{
+      width: 350px;
+    }
+  }
+  @media  screen and (max-width:999px){
+    .list{
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 28rem;
+      gap:5px
+    
+    }
+    .list li.item .content p{
+      max-width: 56%;
+    }
+  }

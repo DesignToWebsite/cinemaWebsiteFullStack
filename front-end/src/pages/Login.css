@@ -1,0 +1,150 @@
+  
+  .container1r{
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.479) 0%, rgb(0, 0, 0) 100%), url(./téléchargé.jpeg)  ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .content{
+    background-color: rgba(3, 3, 3, 0.406);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+  }
+  
+  .login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    min-width: 450px;
+    padding: 2em 0;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    /* gap: 1rem; */
+    border-radius: 5px;
+  }
+  .logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  
+  .image-logo{
+    height: 90px;
+   
+    
+  }
+  .form{
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    gap: 3rem;
+    flex-direction: column;
+  }
+  .input_form{
+    display: flex;
+    flex-direction: column-reverse;
+    /* align-items: center; */
+    justify-content: center;
+    position: relative;
+    visibility: visible;
+    
+  }
+  
+  
+  .form .input_form .input{
+    outline: none;
+    font-size: 1.1rem;
+    /* height: 2.5rem; */
+    color: white;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid 1px rgb(255, 255, 255);
+    position: relative;
+    width: 100%; 
+    color: white;
+  }
+  #email{
+    margin-right: 17px;
+  }
+  .form .input_form .input::placeholder{
+    color: #dadada;
+  }
+  .form .input_form label{
+    
+    position: absolute;
+      /* left: 5%; */
+      top: -20%;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      color: white;
+  }
+  .input_form .input:focus ~ label,
+  .input_form .input:valid ~ label
+  {
+    transform : translateY(-20px);
+    font-size: 15px;
+    color: #dbdbdb;
+  }
+  .forgot-password{
+    margin-bottom: 1rem;
+    color: white;
+  }
+  .buttonn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-direction: column;
+  }
+  .butt{
+    padding: 15px 35px;
+    border: solid 1px #770202;
+    border-radius: 15px;
+    background-color: transparent;
+    color: white;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .eye{
+    position: absolute;
+    right: 0;
+    color: #770202;
+    background-color: transparent;
+    font-size: 18px;
+    background-color: transparent;
+    border: none;
+  }
+  .butt:hover{
+    color: white;
+    border: solid 1px #770202;
+    transition: 0.9s;
+    background: #770202;
+  }
+  a{
+    text-decoration: none;
+    color: rgb(105, 103, 219);
+  }
+  a:hover{
+    text-decoration: underline;
+    color: #770202;
+  }
+  .account{
+    color: white;
+  }
+  
