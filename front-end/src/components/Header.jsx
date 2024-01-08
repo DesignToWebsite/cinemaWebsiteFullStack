@@ -21,17 +21,18 @@ const Header = () =>{
 }
 
 const HeaderStyle = styled.div`
-    background-color:blue;
     min-height:100vh;
     width:100vw;
-    background: linear-gradient(to right, rgb(0, 0, 0) 50%, rgba(0, 0, 0, 0.5)), url(${cinema});
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.538) , rgba(0, 0, 0, 0.656)), url(${cinema}) center/cover no-repeat fixed;
     background-size:cover;
     margin-bottom: 2em;
+    /* padding-bottom:7em; */
     
 `;
 const Content = styled(Container_zineb)`
-    max-width: 50%;
-    background:linear-gradient(to right, rgb(0, 0, 0), rgba(0, 0, 0, 0.691));
+    
+    max-width: 70%;
+    background:linear-gradient(to right, rgba(0, 0, 0, 0.829), rgba(0, 0, 0, 0.04));
     min-height : 100vh;
     color : white;
     display:flex;

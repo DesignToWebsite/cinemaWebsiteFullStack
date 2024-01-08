@@ -11,14 +11,16 @@ import { EffectCoverflow, Pagination } from "swiper/modules";
 
 
 import Card_movie from "./Card_movie";
-import { movies } from "../data/movies";
-import { data } from "../data/data";
+import { useEffect, useState } from "react";
+// import { movies } from "../data/movies";
+// import { data } from "../data/data";
 
 const Carousel = ( {moviesSelected} ) => {
-  //Top movies:
-  const TopMovies = data.filter(item => item.top == true);
-  const moviesToDisplay = moviesSelected || TopMovies;
-  // const id = "1";
+ 
+
+  const moviesToDisplay = moviesSelected?  moviesSelected : [];
+  
+  
   return (
     <div className="swiper-container">
       <Swiper

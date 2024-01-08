@@ -12,7 +12,7 @@ const Card_movie = ({movie_item}) => {
   const currentDate = new Date();
   const currentDayIndex = currentDate.getDay();
   const targetDayIndex = daysOfWeek.indexOf(movie_item.day);
-
+  // console.log(movie_item)
   let dayLeft = targetDayIndex - currentDayIndex;
   // console.log( targetDayIndex)
 
@@ -20,14 +20,17 @@ const Card_movie = ({movie_item}) => {
   if (dayLeft <= 0) {
     dayLeft += 7;
   }
-console.log(movie_item)
+// console.log(movie_item)
+  const consoleItem = ()=>{
+    console.log(movie_item)
+  }
   return (
     <Link  style={{color:'white'}}
     // to={"/movie_page/"+movie_item.id}
     to={{
-      pathname: "/movie_page/" + movie_item.id,
-      state: { movieItem: "hello" }
-      }}
+      pathname: "/movie_page/" + movie_item.id
+      }} 
+      onClick="consoleItem"
     >
       <Card>
       
@@ -42,7 +45,7 @@ console.log(movie_item)
           <div className="info">
             <p>
               <img src={priceSvg} alt="" />
-              <span>Price :</span> {movie_item.prix} DH</p>
+              <span>Price : </span> {movie_item.price} DH</p>
             <p>
               <img src={timeSvg} alt="" /> 
               <span>Days left :</span> {dayLeft}

@@ -24,12 +24,16 @@ const Nav = () =>{
 const NavStyle = styled(Container_zineb)`
     /* background-color:rgba(119, 2, 2, 0.404) ; */
     /* background-color: rgba(0, 0, 0, 0.427); */
+    position:absolute;
+    width:100%;
+    
     color : #dddddd;
     display: flex;
     align-items:center;
     justify-content:space-between;
     padding-top:1.5em;
     padding-bottom:1.5em;
+    /* padding-bottom:2em: */
 `;
 const List = styled.ul`
     display: flex;

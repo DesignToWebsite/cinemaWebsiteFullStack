@@ -1,0 +1,12 @@
+// In the component where you navigate to SignUp
+import { useNavigate } from 'react-router-dom';
+
+function SomeComponent() {
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate('/signup', { state: { from: location.pathname } });
+  };
+
+  // ... rest of your component
+}

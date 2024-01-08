@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import axios from 'axios';
+
 import { useState } from 'react';
 import VideoModel from './vidoeModel';
 import Button from 'react-bootstrap/Button';
@@ -17,52 +19,88 @@ const Movie_description = ()=>{
     const url = location.pathname;
 
     const { id } = useParams();
-    console.log(id)
-    const movie = data.filter(item=>item.id == id)[0];
+    // console.log(id)
+
+    const [movie, setMovie] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const baseURL = `http://127.0.0.1:8000/api/movies/${id}?includeReservations=true`;
+
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+            const response = await axios.get(baseURL);
+            setMovie(response.data);
+            if(movie){
+                setLoading(false);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } 
+        };
+
+        fetchData();
+    }, [loading]);
+      
+    let MovieDesc = {};
+    if(!loading){
+        // console.log(movie.data)
+         MovieDesc = {
+            minHeight: '100vh',
+            width: '100vw',
+            background: `linear-gradient(50deg, rgba(6, 6, 6, 0.76) 0%, rgba(0, 0, 0, 0.59) 100%), url(${movie.data.img})`,
+            // backgroundColor: 'blue',
+            backgroundSize: 'cover',
+            // marginBottom: '2em',
+          };
+        // const movie = data.filter(item=>item.id == id)[0];
+        
+    }
+
     const [modalShowVideo, setModalShowVideo] = React.useState(false);
-    const MovieDesc = {
-        minHeight: '100vh',
-        width: '100vw',
-        background: `linear-gradient(50deg, rgba(6, 6, 6, 0.76) 0%, rgba(0, 0, 0, 0.59) 100%), url(${movie.img})`,
-        backgroundColor: 'blue',
-        backgroundSize: 'cover',
-        // marginBottom: '2em',
-      };
+    
+    // if(data)
   return (
     <div style={MovieDesc}>
-        <Description>
-        <h1>{movie.name}</h1>
-        <div className="btns">
-            <button className='play' onClick={() => setModalShowVideo(true)}>
-                <img className='icon' src={playSvg} alt="play icon" />
-                Play now
-            </button>
-            {/* <button className='reserve' >
-                <img className='icon' src={reserveSvg} alt="play icon" />
-                <a href="">Reserve your place  </a>
-            </button> */}
-            {/* <ButtonReserve time={movie.time} day={movie.day} />
-                */}
-                <ButtonReserve id={movie.id} date={movie.day} time={movie.time} />
-        </div>
-        <div className="info">
-            <span className='date'>{movie.day}</span>
-            <span className="age">{movie.age}</span>
-            <span className='star'>
-                <img src={startSvg} alt="" className="icon" />
-                {movie.star}
-            </span>
-            <span> | </span>
-            <span className='category'>{movie.category.replace(/,/g,' ')}</span>
-        </div>
-        <p>{movie.description}</p>
-        <p className='actors'><span>Actors:</span> {movie.actors} </p>
-        </Description>
-        <VideoModel
-            videoId = {movie.video}
-            show={modalShowVideo}
-            onHide={() => setModalShowVideo(false)}
-        />
+        {!loading &&
+            (
+                <>
+                    <Description>
+                    <h1>{movie.data.name}</h1>
+                    <div className="btns">
+                        <button className='play' onClick={() => setModalShowVideo(true)}>
+                            <img className='icon' src={playSvg} alt="play icon" />
+                            Play now
+                        </button>
+                        {/* <button className='reserve' >
+                            <img className='icon' src={reserveSvg} alt="play icon" />
+                            <a href="">Reserve your place  </a>
+                        </button> */}
+                        {/* <ButtonReserve time={movie.data.time} day={movie.data.day} />
+                            */}
+                            <ButtonReserve id={movie.data.id} date={movie.data.day} time={movie.data.time} />
+                    </div>
+                    <div className="info">
+                        <span className='date'>{movie.data.day}</span>
+                        <span className="age">{movie.data.age}</span>
+                        <span className='star'>
+                            <img src={startSvg} alt="" className="icon" />
+                            {movie.data.star}
+                        </span>
+                        <span> | </span>
+                        <span className='category'>{movie.data.category.replace(/,/g,' ')}</span>
+                    </div>
+                    <p>{movie.data.description}</p>
+                    <p className='actors'><span>Actors:</span> {movie.data.actors} </p>
+                    </Description>
+                    <VideoModel
+                        videoId = {movie.data.video}
+                        show={modalShowVideo}
+                        onHide={() => setModalShowVideo(false)}
+                    />
+                </>
+            )
+        }
          
       
     </div>
@@ -89,6 +127,7 @@ const Description = styled(Container_zineb)`
     h1{
         font-size:4em;
         padding-bottom : .8em;
+        width:70%;
     }
     .icon{
         margin-right: 7px;

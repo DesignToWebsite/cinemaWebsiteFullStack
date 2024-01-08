@@ -1,13 +1,19 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Container, Container_zineb } from "../style/style"
 import Carousel from "./Carousel"
 import {styled} from 'styled-components'
 // import { movies } from "../data/movies";
-import { data } from "../data/data"
+// import { data } from "../data/data"
 
-const Categories = () =>{
-    const [selectedCategory, setSelectedCategory] = useState('Horror');
-    const moviesSelected = data.filter(item=> item.category.includes(selectedCategory) ==true );
+// import { fetchMovies } from "../data/api"
+
+
+const Categories = (movies) =>{
+    
+    const [selectedCategory, setSelectedCategory] = useState('Action');
+    // console.log(moviecs)
+    // const moviesData = movies;
+    const moviesSelected = movies ? movies.movies.filter(item=> item.category.includes(selectedCategory) ==true ) : [] ;
 
    
     return(
