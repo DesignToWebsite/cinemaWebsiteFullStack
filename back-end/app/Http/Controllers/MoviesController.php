@@ -30,7 +30,7 @@ class MoviesController extends Controller
         // else{
         //     return new MoviesCollection(Movies::where($filterItems)->paginate());
         // }
-        return new MoviesCollection($movies->paginate()->appends($request->query()));
+        return new MoviesCollection($movies->paginate(15)->appends($request->query()));
 
     }
 
@@ -75,16 +75,28 @@ class MoviesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMoviesRequest $request, Movies $movies)
+    public function update(UpdateMoviesRequest $request, $id)
     {
-        //
+        $movies = Movies::findOrFail($id);
+        // return $movies;
+        $movies->update($request->all());
+        $updatedMovie = Movies::findOrFail($id);
+        return new MoviesResource($updatedMovie);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Movies $movies)
+    public function destroy($id)
     {
-        //
+        $movie = Movies::find($id);
+        if(!$movie){
+            return response()->json(['error' => 'Movie not found'], 404);
+        }
+
+
+        $movie->delete();
+        return response()->json(['message' => 'Movie deleted successfully']);
+    
     }
 }

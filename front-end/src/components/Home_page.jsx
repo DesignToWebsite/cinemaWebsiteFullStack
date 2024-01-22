@@ -9,12 +9,13 @@ import { fetchMovies } from "../data/api"
 
 const Home_page = () =>{
     const [movies,setMovies] = useState([]);
-    const [loading,setLoading] = useState(true);
+    const [loading,setLoading] = useState(localStorage.getItem("id"));
     useEffect(()=>{
         const fetchData = async() =>{
             try{
                 const MoviesData = await fetchMovies();
                 setMovies(MoviesData.data);
+                // console.log(movies)
             }catch(error){
                 console.error();
             }finally{

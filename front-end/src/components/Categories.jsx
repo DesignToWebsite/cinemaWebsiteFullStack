@@ -23,7 +23,7 @@ const Categories = (movies) =>{
                 <ul>
                     <li onClick={() => setSelectedCategory('Science Fiction')}>Science Fiction</li>
                     <li onClick={() => setSelectedCategory('Action')}>Action</li>
-                    <li onClick={() => setSelectedCategory('Horror')}>Horror</li>
+                    <li onClick={() => setSelectedCategory('Adventure')}>Adventure</li>
                     <li onClick={() => setSelectedCategory('Mystery')}>Mystery</li>
                     <li onClick={() => setSelectedCategory('Comedy')}>Comedy</li>
                 </ul>

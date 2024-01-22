@@ -1,4 +1,6 @@
 import {styled} from 'styled-components'
+// import {bgImage} from "../assets/bg.jpeg";
+import bgImage from "../assets/bg.jpeg"
 
 
 export const Container_zineb = styled.div`
@@ -24,7 +26,7 @@ export const Container = styled.div`
 
 export const ContainerLogin = styled.div`
   background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.865)),
-    url("./téléchargé.jpeg") center/cover no-repeat fixed;
+    url(${bgImage}) center/cover no-repeat fixed;
   width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -177,4 +179,25 @@ p{
         margin-bottom:20px;
     }
   }
+`;
+
+export const ErrorMessage = styled.p`
+  color: #770202;
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight:bold;
+`;
+
+export const LoadingIndicator = styled.div`
+width: 20px;
+height: 20px;
+border: 4px solid #ffffff;
+border-top: 4px solid #a10101;
+border-radius: 50%;
+animation: spin 1s linear infinite;
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 `;

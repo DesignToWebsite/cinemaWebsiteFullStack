@@ -23,6 +23,10 @@ class Reservations extends Model
         'placesReserved',
         'seats',
         'price',
+        'food',
+        'paid',
+        'stripe_id',
+        'stripe_link'
     ];
     
 }

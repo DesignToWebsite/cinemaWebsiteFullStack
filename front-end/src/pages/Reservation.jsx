@@ -4,47 +4,61 @@ import styled from "styled-components";
 import { fade, pageAnimation } from "../animation";
 import { motion } from "framer-motion";
 import "../style/profile_resrvation.css";
-import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate, redirect } from "react-router-dom";
+import Login from "./Login";
+import { LoadingIndicator } from "../style/style";
 // import { data } from '../data/data';
 
-const Reservation = () => {
+const ReservationLogged = () => {
   const location = useLocation();
   const history = useNavigate();
   const url = location.pathname;
-
+  const userId = localStorage.getItem("id");
+  const user = JSON.parse(localStorage.getItem("user"));
   const { id } = useParams();
   // console.log(id)
+  // console.log(user)
+  console.log(user)
+  const [error, setError] = useState(null)
 
   const [movie, setMovie] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [numReservations, setNumReservations] = useState(1);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedFood, setSelectedFood] = useState(
+    Array(numReservations).fill("")
+  );
+  const [priceReservation, setPriceReservation] = useState(null);
+  
+// console.log(movie)
 
   //Get the data from the api
-  const baseURL = `http://127.0.0.1:8000/api/movies/${id}?includeReservations=true`;
-
+const [stopUse, setStopUse] = useState(true);
   useEffect(() => {
+    const baseURL = `http://127.0.0.1:8000/api/movies/${id}?includeReservations=true`;
     const fetchData = async () => {
       try {
+        setLoading(true)
         const response = await axios.get(baseURL);
         setMovie(response.data);
-        if (movie) {
+        console.log(response)
+        setPriceReservation(response?.data?.data?.price)
+        // if (movie) {
           setLoading(false);
-        }
+          setStopUse(false)
+          
+        // }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [loading]);
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [numReservations, setNumReservations] = useState(1);
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedFood, setSelectedFood] = useState(
-    Array(numReservations).fill("")
-  );
-
+  },[]);
+// console.log(m)
+console.log(priceReservation)
   const handleFoodChangeForSeat = (seatIndex, foodValue) => {
     const newSelectedFood = [...selectedFood];
     newSelectedFood[seatIndex - 1] = foodValue;
@@ -63,44 +77,21 @@ const Reservation = () => {
   const getFoodPrice = (selectedFood) => {
     switch (selectedFood) {
       case "popcorn":
-        return 5;
+        return 30;
       case "snacks":
-        return 10;
+        return 50;
       case "candies":
-        return 5;
+        return 30;
       case "sodas":
-        return 3;
+        return 20;
       case "juices":
-        return 4;
+        return 25;
       default:
         return 0;
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
-    if (selectedSeats.length === numReservations) {
-      const seatPrice = numReservations * 10;
-      const foodPrices = selectedFood
-        .map((food) => getFoodPrice(food))
-        .filter((price) => price !== undefined);
-
-      if (foodPrices.length === numReservations) {
-        const totalPrice =
-          seatPrice + foodPrices.reduce((acc, curr) => acc + curr, 0);
-
-        formRef.current && formRef.current.submit();
-        history.push('/profile');
-      } 
-      else {
-        alert("Please select a food option for each seat.");
-      }
-    } 
-    else {
-      alert(`Please select exactly ${numReservations} seats.`);
-    }
-  };
 
   const Seat = ({ isOccupied, isSelected, onClick }) => {
     const className = `seat ${isOccupied ? "occupied" : ""} ${
@@ -184,9 +175,63 @@ const Reservation = () => {
     return seatComponents;
   };
 
+  const [paymentLink,setPaymentLink] = useState(null);
+
+  //store the data
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (selectedSeats.length === numReservations) {
+      const seatPrice = numReservations * priceReservation;
+      // console.log(priceReservation)
+      const foodPrices = selectedFood
+        .map((food) => getFoodPrice(food))
+        .filter((price) => price !== undefined);
+
+      // if (foodPrices.length === numReservations) {
+        const totalPrice =
+          seatPrice + foodPrices.reduce((acc, curr) => acc + curr, 0);
+        setPriceReservation(totalPrice)
+        // formRef.current && formRef.current.submit();
+        const reservation = {
+          "userId": userId,
+          "movieId": parseInt(id), // parseInt("10", 10);
+          "placesReserved": numReservations,
+          "seats": selectedSeats.join(','),
+          "price": priceReservation,
+          "paid": 0,
+          "food":selectedFood.join(','),
+        };
+        // console.log(reservation)
+        try{
+          setLoading(true)
+          const response = await axios.post(
+            "http://127.0.0.1:8000/api/reservations",
+            reservation
+          );
+          setPaymentLink(response.data)
+          console.log("reservation success")
+          // setLoading(false)
+          
+        }catch(error){
+          setLoading(false);
+          // setError( error.response.data)
+          console.log("error in reservation : ", error.response.data);
+        }
+
+    } 
+    else {
+      alert(`Please select exactly ${numReservations} seats.`);
+    }
+  };
+  if(paymentLink?.data.stripeLink){
+    window.location.href = paymentLink.data?.stripeLink
+  }
+
+
   return (
     <>
-      {!loading && (
+      {!stopUse && (
         <div className="profile_page">
           <StyledReservation
             variants={pageAnimation}
@@ -204,7 +249,7 @@ const Reservation = () => {
                 <StyledInput
                   type="text"
                   value={firstName}
-                  onChange={(event) => setFirstName(event.target.value)}
+                  readOnly
                 />
               </Label>
               <Label>
@@ -212,7 +257,7 @@ const Reservation = () => {
                 <StyledInput
                   type="text"
                   value={lastName}
-                  onChange={(event) => setLastName(event.target.value)}
+                  readOnly
                 />
               </Label>
               <Label>
@@ -235,13 +280,13 @@ const Reservation = () => {
                     }
                   >
                     <StyledOption value="">Select an Option</StyledOption>
-                    <StyledOption value="popcorn">Popcorn $5</StyledOption>
+                    <StyledOption value="popcorn">Popcorn 30 DH</StyledOption>
                     <StyledOption value="snacks">
-                      Sweet and Savory Snacks $10
+                      Sweet and Savory Snacks 50 DH
                     </StyledOption>
-                    <StyledOption value="candies">Candies $5</StyledOption>
-                    <StyledOption value="sodas">Sodas $3</StyledOption>
-                    <StyledOption value="juices">Fruit Juices $4</StyledOption>
+                    <StyledOption value="candies">Candies 30 DH</StyledOption>
+                    <StyledOption value="sodas">Sodas 20 DH</StyledOption>
+                    <StyledOption value="juices">Fruit Juices 25 DH</StyledOption>
                   </StyledSelect>
                 </Label>
               ))}
@@ -280,9 +325,9 @@ const Reservation = () => {
                       {index < selectedSeats.length - 1 ? ", " : ""}
                     </span>
                   ))}
-                  ) for a price of ${" "}
+                  ) for a price of {" "} DH
                   <span id="total">
-                    {numReservations * 10 +
+                    {numReservations * priceReservation +
                       selectedFood.reduce(
                         (acc, food) => acc + getFoodPrice(food),
                         0
@@ -293,15 +338,24 @@ const Reservation = () => {
                 "You have not selected any seats."
               )}
             </StyledPrice>
-            <Link to="/profile">
-              <StyledButton
+            {/* <Link to="/profile"> */}
+              
+              <div className="buttonn">
+              {loading ? (
+                // Render loading indicator while loading
+                <LoadingIndicator/>
+              ) : (
+                // Render login button when not loading
+                <StyledButton
                 variants={fade}
-                type="submit"
+                // type="submit"
                 onClick={handleSubmit}
               >
                 Submit
               </StyledButton>
-            </Link>
+              )}
+            </div>
+            {/* </Link> */}
           </StyledReservation>
         </div>
       )}
@@ -309,11 +363,33 @@ const Reservation = () => {
   );
 };
 
+const Reservation = ()=>{
+  const { id } = useParams();
+
+  return(
+    <>
+    {
+      localStorage.getItem("isLoggedIn") && <ReservationLogged />
+    }
+    {
+      !localStorage.getItem("isLoggedIn") && <Login reservation={true} reservationId={id}/>
+    }
+    </>
+  )
+}
+
 const StyledReservation = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
+  padding-top:6em;
+  .buttonn{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
 `;
 
 const H1 = styled(motion.h1)`
@@ -386,7 +462,8 @@ const StyledButton = styled(motion.button)`
   border: none;
   border-radius: 20px;
   margin-top: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 2em;
+  margin-top : 2em;
   background: linear-gradient(to right, black, #770202);
   color: white;
   cursor: pointer;

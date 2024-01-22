@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('food')->nullable();
             $table->float('price');
             $table->boolean('paid')->default(false);
+            $table->string('stripe_id')->nullable();
+            $table->string('stripe_link')->nullable();
             $table->timestamps();
         });
     }

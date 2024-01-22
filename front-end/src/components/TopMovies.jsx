@@ -4,7 +4,7 @@ import { Container } from "../style/style"
 
 const TopMovies = ({movies}) =>{
     const moviesSelected =  movies.filter(item=>item.top)  ;
-    console.log(moviesSelected)
+    // console.log(moviesSelected)
     return(
         <Movie>
             <div id="movies"></div>

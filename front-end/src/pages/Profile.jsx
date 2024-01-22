@@ -5,21 +5,19 @@ import MovieImage from "../assets/Cinema_Web_Site_Design2.jpg";
 import { motion } from "framer-motion";
 import { photoAnim, fade, pageAnimation, scrollAnim } from "../animation";
 import "../style/profile_resrvation.css";
-import { users } from "../data/users";
-import { data } from "../data/data";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import closeBtn from "../assets/x-button.png";
+import editBtn from "../assets/editing.png";
 const Profile = () => {
   //get the data
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-  //Get the data from the api
-  const connectedUser = 1;
-  const baseURL = `http://127.0.0.1:8000/api/users/${connectedUser}?includeReservations=true`;
-  // const userInfo = users[0];
-  // const reservedMovies = userInfo.reservedMovies;
-
-  // const movies = data.filter(item => reservedMovies.includes(item.id));
-
+  const userId = localStorage.getItem("id");
+  // const hasReservations = useState(null)
+  const { id } = useParams();
+  console.log(id);
+  const baseURL = `http://127.0.0.1:8000/api/users/${userId}?includeReservations=true`;
+  const [updated, setUpdated] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,6 +25,24 @@ const Profile = () => {
         setUser(response.data);
         if (user) {
           setLoading(false);
+          if (id) {
+            const updateData = {
+              paid: true,
+            };
+            const id_res_paid = user.data.reservations.filter(
+              (item) => item.stripeId == id
+            )[0].id;
+            const url = `http://127.0.0.1:8000/api/reservations/${id_res_paid}`;
+            console.log(url);
+            const updateReservation = await axios.patch(url, updateData);
+            if (updateReservation) {
+              setUpdated(true);
+            }
+            console.log(
+              "Reservation updated successfully:",
+              updateReservation.data
+            );
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -36,33 +52,76 @@ const Profile = () => {
     fetchData();
   }, [loading]);
 
-  // const user.data = users[0];
-  // loading ? console.log(user) : console.log();
-  // const reservedMovies = user.data?.reservedMovies || null;
-  // // const movies = movidata.filter((item) => reservedMovies.includes(item.id));
-  // const movies = user.data?.reservations.filter(
-  //   (item) => userId == connectedUser
-  // );
-  // // console.log(movies);
+  const updatePaidStatus = (reservationId) => {
+    setUser((prevUser) => {
+      console.log(prevUser);
+      const updateReservations = prevUser?.data?.reservations.map(
+        (reservation) => {
+          if (reservation.stripeId === reservationId) {
+            // Update the 'paid' property to true (1)
+            return { ...reservation, paid: 1 };
+          }
+          return reservation;
+        }
+      );
 
-  // const reservations = user.data.reservedMovies.map((element, i) => {
-  //   const reservedMovie = movies.find((movie) => movie.id === element);
-
-  //   return {
-  //     id: i, // You might want to use a unique identifier for each reservation
-  //     movie_name: reservedMovie ? reservedMovie.name : "", // Assuming 'name' is the property you want
-  //     seats: user.data.places[i],
-  //     total_price: user.data.price[i++],
-  //   };
-  // });
-
-  const [showReservations, setShowReservations] = useState(true);
-  const [reservationWidth, setReservationWidth] = useState("100%");
+      return {
+        ...prevUser,
+        data: {
+          ...prevUser.data,
+          reservations: updateReservations,
+        },
+      };
+    });
+  };
 
   useEffect(() => {
-    // Update the reservation width based on showReservations
-    setReservationWidth(showReservations ? "100%" : "100%");
-  }, [showReservations]);
+    if (updated && id) {
+      console.log(user.data);
+      updatePaidStatus(id);
+      console.log(user.data);
+    }
+  }, [updated]);
+
+  const [showReservations, setShowReservations] = useState(true);
+
+  const updateDeleteStatus = (reservationId) =>{
+    setUser((prevUser) =>{
+      const updateReservation = prevUser?.data?.reservations.filter((reservation) =>{
+        return reservation.id !== reservationId
+      });
+      return {
+        ...prevUser,
+        data:{
+          ...prevUser.data,
+          reservations : updateReservation,
+        },
+      }
+    })
+  }
+
+  const deleteMovie = async (id) => {
+    console.log(id);
+
+    // Show confirmation dialog
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this reservation?"
+    );
+    if (confirmDelete) {
+      try {
+        // Make the DELETE request
+        const detelte = await axios.delete(`http://127.0.0.1:8000/api/reservations/${id}`);
+        // Handle success, e.g., update the UI or perform any additional actions
+        if(detelte){
+          updateDeleteStatus(id)
+        }
+        console.log("Reservation deleted successfully");
+      } catch (error) {
+        // Handle the error, e.g., show an error message to the user
+        console.error("Error deleting reservation:", error.response.data);
+      }
+    }
+  };
 
   return (
     <div className="profile_page">
@@ -75,9 +134,13 @@ const Profile = () => {
         {user.data && (
           <>
             <Info
-              reservationWidth={reservationWidth}
-              hasReservations={user.data?.reservations.length > 0}
+            // hasReservations={user.data?.reservations.length > 0}
             >
+              <Link to="/editProfile">
+                <button className="changeInfo">
+                  <img src={editBtn} alt="" />
+                </button>
+              </Link>
               <UserInfo>
                 <div>
                   <p>
@@ -93,12 +156,7 @@ const Profile = () => {
                   </p>
                 </div>
               </UserInfo>
-              {/* <ReservationsButton
-                variants={fade}
-                onClick={() => setShowReservations(!showReservations)}
-              >
-                Reservations
-              </ReservationsButton> */}
+
               {showReservations && user.data?.reservations.length === 0 ? (
                 <NoReservations variants={fade}>
                   No reservations yet.
@@ -111,52 +169,64 @@ const Profile = () => {
                       initial="hidden"
                       animate="show"
                       exit="exit"
-                      reservationWidth={reservationWidth}
+                      // reservationWidth={reservationWidth}
                     >
-                      <ul>
-                        {user.data?.reservations.map((reservation) => (
-                          <StyledReservation
-                            key={reservation.id}
-                            variants={scrollAnim}
-                            initial="show"
-                            exit="hidden"
-                          >
-                            <div className="image">
-                              
-                              <Link to="/profile?deleted=true&&id=1">
-                              <div className="delete">X</div>
-                              </Link>
-                            <MovieImg
-                              variants={photoAnim}
-                              src={reservation.movies.img}
-                              alt=""
-                              
-                            />
-                            </div>
-                            <div className="info_card">
-                            <p>
-                              Movie: <span>{reservation.movies.name}</span>
-                            </p>
-                            <p>
-                              Seats: <span>{reservation.seats}</span>
-                            </p>
-                            <p>
-                              Total Price:{" "}
-                              <span>${reservation.price}</span>
-                            </p>
-                            {reservation.paid ? (
-                              <ButtonLink to={`/invoice/${reservation.id}`}>
-                                View Invoice
-                              </ButtonLink>
-                            ) : (
-                              <ButtonLink to={`/pay/${reservation.id}`}>
-                                Pay Now
-                              </ButtonLink>
-                            )}
-                            </div>
-                          </StyledReservation>
-                        ))}
-                      </ul>
+                      {
+                        <ul>
+                          {user.data?.reservations.map((reservation) => (
+                            <StyledReservation
+                              key={reservation.id}
+                              variants={scrollAnim}
+                              initial="show"
+                              exit="hidden"
+                            >
+                              <div className="image">
+                                <button
+                                  className="delete"
+                                  onClick={() => deleteMovie(reservation.id)}
+                                >
+                                  {/* <div > */}
+                                  <img src={closeBtn} alt="" />
+                                  {/* </div> */}
+                                </button>
+                                <MovieImg
+                                  variants={photoAnim}
+                                  src={reservation.movies.img}
+                                  alt=""
+                                />
+                              </div>
+                              <div className="info_card">
+                                <p>
+                                  Movie:{" "}
+                                  <span>
+                                    {reservation.movies.name.slice(0, 15)}...
+                                  </span>
+                                </p>
+                                <p>
+                                  Seats: <span>{reservation.seats}</span>
+                                </p>
+                                <p>
+                                  Total Price: <span>${reservation.price}</span>
+                                </p>
+                                {reservation.paid ? (
+                                  <ButtonLink to={`/invoice/${reservation.id}`}>
+                                    View Invoice
+                                  </ButtonLink>
+                                ) : (
+                                  <ButtonLink
+                                    onClick={(e) =>
+                                      (window.location.href =
+                                        reservation.stripeLink)
+                                    }
+                                  >
+                                    Pay Now
+                                  </ButtonLink>
+                                )}
+                              </div>
+                            </StyledReservation>
+                          ))}
+                        </ul>
+                      }
                     </StyledReservations>
                   )}
                 </>
@@ -170,7 +240,7 @@ const Profile = () => {
 };
 
 const StyledProfile = styled(motion.div)`
-padding-top : 7em;
+  padding-top: 7em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,15 +248,11 @@ padding-top : 7em;
 `;
 
 const Info = styled.div`
+  width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* width:80% !important; */
-  width: ${(props) =>
-    props.hasReservations
-      ? props.reservationWidth
-      : "80%"}; //Set width based on the prop, with a minimum width if no reservations
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 60px;
@@ -195,9 +261,16 @@ const Info = styled.div`
   flex-wrap: wrap;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  @media (max-width: 600px) {
-    padding: 20px;
-    margin: 40px;
+  position : relative;
+  .changeInfo{
+    background-color : transparent;
+    border : none;
+    color :white;
+    font-weight : bold;
+    border-radius : 5px;
+    position : absolute;
+    top: 30px;
+    right : 30px;
   }
 `;
 
@@ -256,20 +329,21 @@ const ReservationsButton = styled(motion.button)`
 `;
 
 const StyledReservations = styled(motion.div)`
+  position: relative;
+  width: 95%;
   margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  width: 80%;
   padding-bottom: 20px;
   white-space: normal;
   overflow-x: auto;
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: #a10101 lightgray; /* Firefox */
-
+  ul {
+    display: flex;
+  }
   /* WebKit styles */
   &::-webkit-scrollbar {
     width: 12px;
-    /* border-radius:30px; */
+    border-radius: 30px;
   }
 
   &::-webkit-scrollbar-track {
@@ -294,30 +368,34 @@ const StyledReservations = styled(motion.div)`
 `;
 
 const StyledReservation = styled(motion.li)`
-  flex: 0 0 auto; 
-  white-space: normal; 
+  flex: 0 0 auto;
+  white-space: normal;
   color: white;
   /* padding: 10px 30px; */
-  width : 250px;
+  width: 250px;
   border: 2px solid #a10101;
   border-radius: 10px;
-  position:relative;
-  margin-right: 20px; 
-  .info_card{
-    padding : 20px 10px 20px 10px;
+  position: relative;
+  margin-right: 20px;
+  .info_card {
+    padding: 20px 10px 20px 10px;
   }
-  .image{
-    position:relative;
-    .delete{
-
-      position : absolute;
-      right :10px;
-      top : 10px;
-      font-weight : 700;
-      /* font-size : 20px; */
-      background-color : #000000;
-      border-radius:50%;
-      padding : 2px 5px;
+  .image {
+    position: relative;
+    .delete {
+      border: none;
+      background-color: transparent;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      /* color : #a10101; */
+      /* background-color : black; */
+      border-radius: 50%;
+      /* width : 20px; */
+      text-align: center;
+      /* padding : 2px 5px; */
     }
   }
   @media (max-width: 600px) {
@@ -343,13 +421,15 @@ const StyledReservation = styled(motion.li)`
 `;
 
 const MovieImg = styled.img`
-  width : 100%;
-  height:200px;
-  border-top-right-radius :10px;
-  border-top-left-radius : 10px;
+  width: 100%;
+  height: 200px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 `;
 
 const ButtonLink = styled(Link)`
+  /* position : relative; */
+  /* bottom :-10px; */
   display: block;
   padding: 10px 20px;
   margin-bottom: 10px;

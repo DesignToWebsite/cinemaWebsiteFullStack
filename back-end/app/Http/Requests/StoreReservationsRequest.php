@@ -28,11 +28,16 @@ class StoreReservationsRequest extends FormRequest
             'placesReserved'=> ['required','integer', 'min:1'],
             'seats'=> ['required' , new UniqueReservedSeats($this->input('movieId'))],
             'price'=> ['required', 'numeric'],
-            'paid' => ['boolean']
+            'paid' => ['boolean'],
+            'food' => ['sometimes', 'nullable', 'string'],
+            'stripeId'=> ['sometimes', 'nullable', 'string'],
+            'stripeLink'=> ['sometimes', 'nullable', 'string'],
         ];
     }
     protected function prepareForValidation(){
         $this->merge([
+            'stripe_id' => $this->stripeId,
+            'stripe_link' => $this->stripeLink,
             'users_id' => $this->userId,
             'movies_id' => $this->movieId
         ]);

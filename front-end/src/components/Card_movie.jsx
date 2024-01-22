@@ -5,7 +5,6 @@ import heartSvg from "../assets/heart.svg"
 import priceSvg from "../assets/price.svg"
 import timeSvg from '../assets/time.svg'
 import movieSvg from "../assets/movie.svg"
-import localisationSvg from "../assets/localisation.svg"
 
 const Card_movie = ({movie_item}) => {
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -25,6 +24,7 @@ const Card_movie = ({movie_item}) => {
     console.log(movie_item)
   }
   return (
+    <div className='styledCard'>
     <Link  style={{color:'white'}}
     // to={"/movie_page/"+movie_item.id}
     to={{
@@ -61,6 +61,7 @@ const Card_movie = ({movie_item}) => {
         </div>
       </Card>
     </Link>
+    </div>
   );
 };
 

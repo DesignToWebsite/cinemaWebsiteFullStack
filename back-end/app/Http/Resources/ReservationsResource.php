@@ -23,6 +23,9 @@ class ReservationsResource extends JsonResource
             'seats'=>$this->seats,
             'price' => $this->price,
             'paid' => $this->paid,
+            'food' => $this->food,
+            'stripeId'=> $this->stripe_id,
+            'stripeLink' => $this->stripe_link,
             'users'=> new UsersResource($this->whenLoaded('users')),
             'movies' => new MoviesResource($this->whenLoaded('movies'))
         ];

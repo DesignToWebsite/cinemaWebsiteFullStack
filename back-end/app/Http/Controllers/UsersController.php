@@ -27,7 +27,7 @@ class UsersController extends Controller
         return new UsersCollection($users->paginate()->appends($request->query()));
     
     }
-
+    
     
     public function create()
     {
@@ -66,9 +66,13 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUsersRequest $request, Users $users)
+    public function update(UpdateUsersRequest $request, $id)
     {
-        //
+        $user = Users::findOrFail($id);
+        $user->update($request->all());
+        $updateUser = Users::findOrFail($id);
+        return new UsersResource($updateUser);
+
     }
 
     /**

@@ -124,6 +124,7 @@ const Description = styled(Container_zineb)`
     flex-direction:column;
     align-items:baseline;
     justify-content:center;
+    padding-top:8em;
     h1{
         font-size:4em;
         padding-bottom : .8em;
