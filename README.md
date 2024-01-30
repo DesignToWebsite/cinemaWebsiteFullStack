@@ -26,4 +26,4 @@ https://github.com/DesignToWebsite/projet/assets/74991230/53611f8a-6583-4b0d-bab
 ## Technologies Used
 **Backend:** Laravel API + Youtube API <br/>
 **Frontend:** React <br/>
-**Database:** MySQL <br/>
+**Database:** MySQL <br/>   
