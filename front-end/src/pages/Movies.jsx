@@ -37,7 +37,7 @@ const Movies = () => {
     setCurrent_page(e.target.innerText);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-console.log(movies?.data)
+  // console.log(movies?.data)
   const pagination = [];
   for (let i = 0; i < last_page; i++) {
     pagination.push(
@@ -48,18 +48,18 @@ console.log(movies?.data)
       </div>
     );
   }
-  console.log(movies)
+  // console.log(movies)
   return (
-    <MoviesStyle>
-      <SearchInput setMovies={setMovies}/>
+    <MoviesStyle data-test="moviesSection">
+      <SearchInput setMovies={setMovies} />
       <div className="movies">
-      {movies?.data &&
-  movies.data.map((item) => {
-    return <Card_movie key={item.id} movie_item={item} />;
-  })
-}
+        {movies?.data &&
+          movies.data.map((item) => {
+            return <Card_movie key={item.id} movie_item={item} />;
+          })
+        }
       </div>
-      <Pagination>{pagination}</Pagination>
+      <Pagination >{pagination}</Pagination>
 
     </MoviesStyle>
   );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Container, Container_zineb } from "../style/style"
+import { Container, Container_zineb, LoadingIndicator } from "../style/style"
 import Carousel from "./Carousel"
 import {styled} from 'styled-components'
 // import { movies } from "../data/movies";
@@ -17,27 +17,33 @@ const Categories = (movies) =>{
 
    
     return(
-        <Categorie>
+        <Categorie data-test="categories_section">
             <h2>Our popular Categories</h2>
             <div className="cat">
-                <ul>
-                    <li onClick={() => setSelectedCategory('Science Fiction')}>Science Fiction</li>
-                    <li onClick={() => setSelectedCategory('Action')}>Action</li>
-                    <li onClick={() => setSelectedCategory('Adventure')}>Adventure</li>
-                    <li onClick={() => setSelectedCategory('Mystery')}>Mystery</li>
-                    <li onClick={() => setSelectedCategory('Comedy')}>Comedy</li>
+                <ul data-test="categories">
+                <li className={selectedCategory === 'Science Fiction' ? 'active' : ''} onClick={() => setSelectedCategory('Science Fiction')}>Science Fiction</li>
+                    <li className={selectedCategory === 'Action' ? 'active' : ''} onClick={() => setSelectedCategory('Action')}>Action</li>
+                    <li className={selectedCategory === 'Adventure' ? 'active' : ''} onClick={() => setSelectedCategory('Adventure')}>Adventure</li>
+                    <li className={selectedCategory === 'Mystery' ? 'active' : ''} onClick={() => setSelectedCategory('Mystery')}>Mystery</li>
+                    <li className={selectedCategory === 'Comedy' ? 'active' : ''} onClick={() => setSelectedCategory('Comedy')}>Comedy</li>
                 </ul>
             </div>
             <div className="movies">
-                <Carousel moviesSelected={moviesSelected} />
-                {/* <Carousel /> */}
+
+            {moviesSelected.length == 0 &&
+                    <LoadingIndicator style={{"margin":"auto"}} data-test="loading"/>
+                }
+
+                {moviesSelected.length > 0 &&
+                    <Carousel moviesSelected={moviesSelected} />
+                }
             </div>
         </Categorie>
     )
 }
 
 const Categorie = styled(Container_zineb)`
-   
+    
     .cat{
         ul{
             display:flex;
@@ -53,6 +59,9 @@ const Categorie = styled(Container_zineb)`
                 border-radius:5px;
             }
         }
+    }
+    .active{
+        background-color:  #3b1111f2 !important;
     }
 `;
 

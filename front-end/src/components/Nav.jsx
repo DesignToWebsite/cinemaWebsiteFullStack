@@ -10,20 +10,21 @@ const Nav = ({isAdmin}) =>{
         navigate('/login')
         window.location.reload()
     }
+   
     return (
             <NavStyle>
                 <Logo>
-                    <Link data-test="logo"  to="/"><span>Cine</span>Booking </Link>
+                    <Link data-test="logo"  to="/home"><span>Cine</span>Booking </Link>
                 </Logo>
                 <List data-test="navbar">
-                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/home">Home</Link></li>
                     <li><Link to="/movies">Movies</Link></li>
                     {
                         localStorage.getItem("isLoggedIn") != null &&
                         (
                         <>
                             <li><Link to="/profile">Profile</Link></li>
-                            {isAdmin && <li><Link to="/admin">Admin</Link> </li>}
+                            {JSON.parse(localStorage.getItem("user"))?.email == "admin.nimda@gmail.com"   && <li><Link to="/admin">Admin</Link> </li>}
                             <li onClick={(logout)}><Link to="/login" >Logout</Link> </li>
                         </>)
                     }
@@ -31,8 +32,8 @@ const Nav = ({isAdmin}) =>{
                         !localStorage.getItem("isLoggedIn") &&
                         (
                             <>
-                                <li><Link to="/login">login</Link></li>
-                                <li><Link to="/signUp">signUp</Link></li>
+                                <li data-test="login"><Link to="/login">Login</Link></li>
+                                <li data-test="signup"><Link to="/signUp">SignUp</Link></li>
                             </>
                         )
                     }

@@ -1,15 +1,17 @@
 import styled from "styled-components"
 import Carousel from "./Carousel"
-import { Container } from "../style/style"
+import { Container, LoadingIndicator } from "../style/style"
+import { Autoplay } from "swiper/modules";
 
 const TopMovies = ({movies}) =>{
     const moviesSelected =  movies.filter(item=>item.top)  ;
-    // console.log(moviesSelected)
     return(
-        <Movie>
+        <Movie data-test="topMovies">
             <div id="movies"></div>
             <h2>Top movies</h2>
-            <Carousel moviesSelected={moviesSelected}/>
+            {moviesSelected.length == 0 && <LoadingIndicator style={{"margin":"auto"}} data-test="loading"/>}
+            {moviesSelected.length > 0 && <Carousel moviesSelected={moviesSelected}/>}
+            
         </Movie>
     )
 }

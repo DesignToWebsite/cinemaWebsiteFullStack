@@ -27,7 +27,7 @@ const Login = ({reservation, reservationId})=> {
       
       reservation
         ? navigate(`/reservation/${reservationId}`)
-        : navigate("/");
+        : navigate("/home");
       
         setLoading(true)
   
@@ -78,11 +78,12 @@ const Login = ({reservation, reservationId})=> {
 
           <form className="form" novalidate>
             <div className="input_form">
-              <input onChange={handleChange} className="input" required  name="email" type="email" id="email" />
+              <input onChange={handleChange} className="input" data-test="email" required  name="email" type="email" id="email" />
               <label htmlFor="email">Email</label>
             </div>
             <div className="input_form">
               <input
+                data-test="password"
                 name="password"
                 className="input"
                 required
@@ -105,10 +106,10 @@ const Login = ({reservation, reservationId})=> {
             <div className="buttonn">
             {loading ? (
                 // Render loading indicator while loading
-                <LoadingIndicator />
+                <LoadingIndicator data-test="loading" />
               ) : (
                 // Render login button when not loading
-                <button className="butt" onClick={handleLogin}>
+                <button data-test="loginBtn" className="butt" onClick={handleLogin}>
                   Login
                 </button>
               )}

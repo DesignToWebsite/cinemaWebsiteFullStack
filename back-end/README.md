@@ -64,3 +64,22 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ 
+
+##API
+    http://127.0.0.1:8000/api/user
+    list of users
+
+{
+    "data":[
+    {"id":1,"firstName":"essoussi","lastName":"zineb","email":"zineb@gmail.com","phone":"0606060606","password":"zineb"},
+    {"id":2,"firstName":"admin","lastName":"nimda","email":"admin.nimda@gmail.com","phone":"0606060606","password":"admin"}],
+}
+
+    http://127.0.0.1:8000/api/movies
+    http://127.0.0.1:8000/api/reservations
+    http://127.0.0.1:8000/api/login
+    http://127.0.0.1:8000/api/create-payment-intent
+    http://127.0.0.1:8000/api/movies?includeReservations=true
+
+

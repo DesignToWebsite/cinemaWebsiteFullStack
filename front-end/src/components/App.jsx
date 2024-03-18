@@ -25,7 +25,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(()=>{
-    if (isAuthenticated && localStorage.getItem("isLoggedIn")) {
+    if (localStorage.getItem("user")) {
       const userAuthen = JSON.parse(localStorage.getItem("user"));
       if (
         userAuthen.firstName == "admin" &&
@@ -38,22 +38,28 @@ function App() {
     
   },[isAuthenticated])
 
-  // useEffect(()=>{
-  //   if(!isAuthenticated){
-  //     window.location.reload()
-  //   }
-  // }, [isAuthenticated])
+
 
   useEffect(() => {
     setIsAuthenticated(localStorage.getItem("isLoggedIn"));
+    if (localStorage.getItem("user")) {
+      const userAuthen = JSON.parse(localStorage.getItem("user"));
+      if (
+        userAuthen.firstName == "admin" &&
+        userAuthen.lastName == "nimda" &&
+        userAuthen.email == "admin.nimda@gmail.com"
+      ) {
+        setIsAdmin(true);
+      }
+    }
   }, [localStorage]);
-  console.log(isAdmin);
   return (
     <>
       <GlobalStyle />
       <>
         <Nav isAdmin={isAdmin} />
         <Routes location={location} key={location.pathname}>
+          <Route path="/home" element={<Home_page />} />
           <Route path="/" element={<Home_page />} />
 {
   !isAuthenticated &&(
