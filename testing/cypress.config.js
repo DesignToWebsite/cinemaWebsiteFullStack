@@ -4,7 +4,7 @@ module.exports = defineConfig({
   
   e2e: {
     baseUrl: "http://localhost:5173",
-    defaultCommandTimeout: 1000000,
+    defaultCommandTimeout: 700000,
     specPattern: 'cypress/integration',
     viewportHeight: 550,
     viewportHeight: 660,

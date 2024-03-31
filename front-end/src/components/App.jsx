@@ -1,16 +1,13 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import GlobalStyle from "../style/GlobalStyle";
-import WeeWeeklyMovies from "../components/ShowMovies/WeeklyMovies";
 import Reservation from "../pages/Reservation";
 import Profile from "../pages/Profile";
-import Description from "../pages/Description";
 import Login from "../pages/Login";
 import Nav from "./Nav";
 import Home_page from "./Home_page";
 import SignUp from "../pages/SignUp";
 import Movie_description from "./Movie_description";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import PaymentForm from "./PaymentForm";
 import Invoice from "./Invoice";
 import EditProfile from "../pages/EditProfile";

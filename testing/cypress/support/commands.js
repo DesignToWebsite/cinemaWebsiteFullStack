@@ -6,10 +6,11 @@ Cypress.Commands.add('getDataTest', (dataTestSelector) => {
 })
 
 Cypress.Commands.add('login', (login) =>{
+    cy.visit('/login')
     cy.getDataTest("login").should('text', "Login").click()
     cy.url().should("include", "/login")
-    cy.getDataTest("email").type("zineb@gmail.com")
-    cy.getDataTest("password").type("zineb")
+    cy.getDataTest("email").type("test@gmail.com")
+    cy.getDataTest("password").type("test")
     cy.getDataTest("loginBtn").click();
     cy.getDataTest("loading").should('be.visible')
     cy.url().should("include","/home")

@@ -1,0 +1,16 @@
+[
+    {
+        "name" : "essoussi", 
+        "lastname" : "zineb",
+        "email" : "zineb@gmail.com",
+        "password" : "zineb",
+        "status" : true
+    },
+    {
+        "name" : "fakeName",
+        "lastname" : "fakeName",
+        "email" : "fake@gmail.com",
+        "password" : "fake",
+        "status":false
+    }
+]

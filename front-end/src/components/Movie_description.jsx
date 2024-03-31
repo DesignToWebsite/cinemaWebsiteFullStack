@@ -65,19 +65,13 @@ const Movie_description = ()=>{
         {!loading &&
             (
                 <>
-                    <Description>
+                    <Description data-test="descriptionMovie">
                     <h1>{movie.data.name}</h1>
                     <div className="btns">
-                        <button className='play' onClick={() => setModalShowVideo(true)}>
+                        <button data-test="playBtn" className='play' onClick={() => setModalShowVideo(true)}>
                             <img className='icon' src={playSvg} alt="play icon" />
                             Play now
                         </button>
-                        {/* <button className='reserve' >
-                            <img className='icon' src={reserveSvg} alt="play icon" />
-                            <a href="">Reserve your place  </a>
-                        </button> */}
-                        {/* <ButtonReserve time={movie.data.time} day={movie.data.day} />
-                            */}
                             <ButtonReserve id={movie.data.id} date={movie.data.day} time={movie.data.time} />
                     </div>
                     <div className="info">
@@ -94,6 +88,7 @@ const Movie_description = ()=>{
                     <p className='actors'><span>Actors:</span> {movie.data.actors} </p>
                     </Description>
                     <VideoModel
+                        data-test="videoModel"
                         videoId = {movie.data.video}
                         show={modalShowVideo}
                         onHide={() => setModalShowVideo(false)}

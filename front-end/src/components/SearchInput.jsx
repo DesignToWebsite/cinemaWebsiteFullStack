@@ -38,24 +38,20 @@ const SearchInput = ({ setMovies }) => {
   return (
     <SearchContainer>
       <div className="items">
-      <Input
+      <Input data-test="searchInput"
         type="text"
         placeholder="Search..."
         value={searchTerm}
         onChange={handleChange}
       />
-      <Dropdown onChange={(e) => setSelectedOption(e.target.value)}>
+      <Dropdown data-test="searchFilter" onChange={(e) => {setSelectedOption(e.target.value);}}>
         <option value="name">Name</option>
         <option value="price">Price</option>
-        <option value="time">Time</option>
-        <option value="age">Age</option>
         <option value="category">Category</option>
         <option value="actors">Actor</option>
-        <option value="top">Top</option>
-        {/* Add more options as needed */}
       </Dropdown>
       </div>
-      <Button onClick={handleSearch}>Search</Button>
+      <Button data-test="searchBtn" onClick={handleSearch}>Search</Button>
     </SearchContainer>
   );
 };

@@ -97,7 +97,7 @@ console.log(priceReservation)
     const className = `seat ${isOccupied ? "occupied" : ""} ${
       isSelected ? "selected" : ""
     }`;
-    return <StyledSeat className={className} onClick={onClick}></StyledSeat>;
+    return <StyledSeat  className={className} onClick={onClick}></StyledSeat>;
   };
 
   const handleSeatClick = (seatIndex) => {
@@ -246,7 +246,7 @@ console.log(priceReservation)
             <StyledForm ref={formRef} onSubmit={handleSubmit}>
               <Label>
                 First Name :
-                <StyledInput
+                <StyledInput data-test="firstName"
                   type="text"
                   value={firstName}
                   readOnly
@@ -255,6 +255,7 @@ console.log(priceReservation)
               <Label>
                 Last Name :
                 <StyledInput
+                data-test = "lastName"
                   type="text"
                   value={lastName}
                   readOnly
@@ -263,6 +264,7 @@ console.log(priceReservation)
               <Label>
                 Seats Num :
                 <StyledInput
+                data-test="nbSeat"
                   type="number"
                   value={numReservations}
                   onChange={handleNumReservationsChange}
@@ -275,6 +277,7 @@ console.log(priceReservation)
                   Food Seat{index + 1}:
                   <StyledSelect
                     value={selectedFood[index]}
+                    data-test="food"
                     onChange={(event) =>
                       handleFoodChangeForSeat(index + 1, event.target.value)
                     }
@@ -295,7 +298,7 @@ console.log(priceReservation)
             <StyledSeatsContainer>
               <div className="container">
                 <motion.div style={screen} variants={fade}></motion.div>
-                <div className="seats-container">{generateSeats()}</div>
+                <div data-test="seats-container" className="seats-container">{generateSeats()}</div>
                 <ul className="showcase">
                   <li>
                     <Seat />
@@ -325,14 +328,15 @@ console.log(priceReservation)
                       {index < selectedSeats.length - 1 ? ", " : ""}
                     </span>
                   ))}
-                  ) for a price of {" "} DH
-                  <span id="total">
+                  ) for a price of  {" "}
+                  <span data-test="totalPrice" id="total">
                     {numReservations * priceReservation +
                       selectedFood.reduce(
                         (acc, food) => acc + getFoodPrice(food),
                         0
                       )}
                   </span>
+                  {" "}  DH
                 </>
               ) : (
                 "You have not selected any seats."
@@ -346,7 +350,7 @@ console.log(priceReservation)
                 <LoadingIndicator/>
               ) : (
                 // Render login button when not loading
-                <StyledButton
+                <StyledButton data-test="submitReservation"
                 variants={fade}
                 // type="submit"
                 onClick={handleSubmit}

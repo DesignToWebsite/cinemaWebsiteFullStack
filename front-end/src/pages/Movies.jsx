@@ -53,11 +53,12 @@ const Movies = () => {
     <MoviesStyle data-test="moviesSection">
       <SearchInput setMovies={setMovies} />
       <div className="movies">
-        {movies?.data &&
+        {(movies?.data && movies.data.length>0 )?
           movies.data.map((item) => {
-            return <Card_movie key={item.id} movie_item={item} />;
-          })
+            return <Card_movie  key={item.id} movie_item={item} />;
+          }) : <p>No movie exist</p>
         }
+
       </div>
       <Pagination >{pagination}</Pagination>
 

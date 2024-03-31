@@ -1,0 +1,22 @@
+[
+    {
+        "food" : "popcorn" ,
+        "price": 30
+    },
+    {
+        "food": "snacks",
+        "price":50
+    },
+    {
+        "food": "candies",
+        "price":30
+    },
+    {
+        "food": "sodas",
+        "price" : 20
+    },
+    {
+        "food":"juices",
+        "price":25
+    }
+]

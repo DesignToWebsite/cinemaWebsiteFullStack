@@ -54,7 +54,7 @@ const ButtonReserve = ({date,time,id}) => {
           <Form onSubmit={handleReservationSubmit}>
             <div className="d-flex flex-wrap">
               {availableSlots.map((slot, index) => (
-                <Card
+                <Card data-test="cardTime"
                   key={index}
                   className={`m-2 ${
                     selectedDateTime && selectedDateTime.day === slot.day && selectedDateTime.time === slot.time
@@ -75,7 +75,10 @@ const ButtonReserve = ({date,time,id}) => {
             </div>
 
             <ContinueRes variant="dark"  type="submit" disabled={!selectedDateTime}>
+              <button dataTest="reserveNow">
               <Link to={"/reservation/"+id}>Continue Reservation</Link>
+
+              </button>
             </ContinueRes>
           </Form>
         </Modal.Body>
@@ -90,6 +93,10 @@ const ModelStyle = styled(Modal)`
       background:#000000e7;
       width:fit-content;
   }  
+  button{
+    background-color: transparent; 
+    border:none;
+  }
 `;
 const CardBody = styled(Card.Body)`
     /* background-color:#770202; */

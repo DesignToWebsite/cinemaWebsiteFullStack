@@ -24,13 +24,13 @@ const Card_movie = ({movie_item}) => {
     console.log(movie_item)
   }
   return (
-    <div className='styledCard'>
-    <Link  style={{color:'white'}}
+    <div  className='styledCard'>
+    <Link  data-test="cardMovie" style={{color:'white'}}
     // to={"/movie_page/"+movie_item.id}
     to={{
       pathname: "/movie_page/" + movie_item.id
       }} 
-      onClick="consoleItem"
+      onClick={consoleItem}
     >
       <Card>
       

@@ -1,0 +1,23 @@
+[
+    {
+        "select" : "Name",
+        "searchItem" : "The Matrix",
+        "filter" : "name"
+    },
+    {
+        "select":"Actor",
+        "searchItem":"Viggo Mortensen",
+        "filter" : "actors"
+    },
+    {
+        "select" : "Category",
+        "searchItem" : "action",
+        "filter" : "category"
+    },
+    {
+        "select" : "Name",
+        "searchItem" : "movie does not exist",
+        "filter" : "name"
+    }
+    
+]
