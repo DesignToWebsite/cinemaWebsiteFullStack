@@ -63,7 +63,7 @@ const AddMovie = () => {
   return (
     <>
       {/* <Button variant="primary" > */}
-        <button className="icon_add" onClick={handleShow}>
+        <button data-test="addMovieBtn" className="icon_add" onClick={handleShow}>
           <img src={addBtn} alt="" />
         </button>
       {/* </Button> */}
@@ -79,6 +79,7 @@ const AddMovie = () => {
               required
               name="name"
               type="text"
+              id="name"
               placeholder="Enter the movie title"
             />
           </div>
@@ -90,6 +91,7 @@ const AddMovie = () => {
               required
               name="img"
               type="text"
+              id="img"
               placeholder="https://www.image.jpg"
             />
           </div>
@@ -100,6 +102,7 @@ const AddMovie = () => {
               onChange={handleChange}
               rows="5"
               name="description"
+              id="description"
               type="text"
             ></textarea>
           </div>
@@ -227,8 +230,8 @@ const AddMovie = () => {
               <StyledOption value={true}>True</StyledOption>
             </StyledSelect>
           </div>
-          <StyledButton variant="primary" onClick={saveData}>
-            Save Changes
+          <StyledButton data-test="submitBtn" variant="primary" onClick={saveData}>
+            Submit
           </StyledButton>
         </StyledForm>
 

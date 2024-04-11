@@ -42,7 +42,7 @@ window.location.reload();
   return (
     <>
       <button onClick={handleShow} className="edit">
-        edit
+        Edit
       </button>
 
       <ModalStyle size="lg" show={show} onHide={handleClose} centered>

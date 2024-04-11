@@ -25,7 +25,7 @@ const TableMovies = ({ movies, current_page }) => {
 
   // console.log(movies.data)
   return (
-    <Table>
+    <Table data-test="tableMovies">
       <thead>
         <tr>
           <th className="img" style={{ width: "20%" }}>

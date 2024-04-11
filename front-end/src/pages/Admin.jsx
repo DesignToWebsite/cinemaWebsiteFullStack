@@ -59,7 +59,7 @@ const Admin = () => {
         <h1>Movies List</h1>
         <AddMovie setMovies={setMovies} />
       </div>
-      <div className="search">
+      <div  className="search">
         <SearchInput setCurrent_page={setCurrent_page} setlast_page={setlast_page} setMovies={setMovies} />
       </div>
 

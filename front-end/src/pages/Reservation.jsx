@@ -7,6 +7,7 @@ import "../style/profile_resrvation.css";
 import { Link, useLocation, useParams, useNavigate, redirect } from "react-router-dom";
 import Login from "./Login";
 import { LoadingIndicator } from "../style/style";
+import StripeContainer from "../components/StripeContainer";
 // import { data } from '../data/data';
 
 const ReservationLogged = () => {
@@ -16,9 +17,7 @@ const ReservationLogged = () => {
   const userId = localStorage.getItem("id");
   const user = JSON.parse(localStorage.getItem("user"));
   const { id } = useParams();
-  // console.log(id)
-  // console.log(user)
-  console.log(user)
+  
   const [error, setError] = useState(null)
 
   const [movie, setMovie] = useState([]);
@@ -31,8 +30,7 @@ const ReservationLogged = () => {
     Array(numReservations).fill("")
   );
   const [priceReservation, setPriceReservation] = useState(null);
-  
-// console.log(movie)
+
 
   //Get the data from the api
 const [stopUse, setStopUse] = useState(true);
@@ -43,7 +41,6 @@ const [stopUse, setStopUse] = useState(true);
         setLoading(true)
         const response = await axios.get(baseURL);
         setMovie(response.data);
-        console.log(response)
         setPriceReservation(response?.data?.data?.price)
         // if (movie) {
           setLoading(false);
@@ -57,8 +54,6 @@ const [stopUse, setStopUse] = useState(true);
 
     fetchData();
   },[]);
-// console.log(m)
-console.log(priceReservation)
   const handleFoodChangeForSeat = (seatIndex, foodValue) => {
     const newSelectedFood = [...selectedFood];
     newSelectedFood[seatIndex - 1] = foodValue;
@@ -176,14 +171,14 @@ console.log(priceReservation)
   };
 
   const [paymentLink,setPaymentLink] = useState(null);
-
+  const [showStripe, setShowStripe] = useState(false)
+  
   //store the data
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (selectedSeats.length === numReservations) {
       const seatPrice = numReservations * priceReservation;
-      // console.log(priceReservation)
       const foodPrices = selectedFood
         .map((food) => getFoodPrice(food))
         .filter((price) => price !== undefined);
@@ -198,11 +193,10 @@ console.log(priceReservation)
           "movieId": parseInt(id), // parseInt("10", 10);
           "placesReserved": numReservations,
           "seats": selectedSeats.join(','),
-          "price": priceReservation,
+          "price": totalPrice,
           "paid": 0,
           "food":selectedFood.join(','),
         };
-        // console.log(reservation)
         try{
           setLoading(true)
           const response = await axios.post(

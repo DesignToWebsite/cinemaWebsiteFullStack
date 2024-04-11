@@ -182,7 +182,7 @@ const Profile = () => {
                             >
                               <div className="image">
                                 <button
-                                  className="delete"
+                                  className="delete" data-test='deleteReservation'
                                   onClick={() => deleteMovie(reservation.id)}
                                 >
                                   {/* <div > */}
@@ -206,7 +206,7 @@ const Profile = () => {
                                   Seats: <span>{reservation.seats}</span>
                                 </p>
                                 <p>
-                                  Total Price: <span>${reservation.price}</span>
+                                  Total Price: <span>{reservation.price}DH</span>
                                 </p>
                                 {reservation.paid ? (
                                   <ButtonLink to={`/invoice/${reservation.id}`}>
