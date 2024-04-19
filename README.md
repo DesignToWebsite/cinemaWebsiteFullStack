@@ -6,7 +6,11 @@ It consists of a *Laravel API backend* and a *React frontend* alse we used the *
 
 ## Video
 
-https://github.com/DesignToWebsite/projet/assets/74991230/53611f8a-6583-4b0d-bab6-73bda74e22f3
+https://github.com/DesignToWebsite/cinemaWebsiteFullStack/assets/74991230/b794bcf1-55c5-4f4e-8715-26024cea2869
+
+## Testing 
+
+https://github.com/DesignToWebsite/cinemaWebsiteFullStack/assets/74991230/b0b38bca-b871-4931-b83e-e38a83acd29c
 
 ## Screen 
 
