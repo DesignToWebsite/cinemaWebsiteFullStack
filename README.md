@@ -3,10 +3,6 @@
 This project is a web application for cinema reservations. <br/>
 It consists of a *Laravel API backend* and a *React frontend* alse we used the *Youtube API* to show the video trailer.
 
-## Contributors
-
-. <a href="https://www.linkedin.com/in/zineb-essoussi-5301581b6/">Zineb Essoussi</a> <br/>
-. <a href="https://www.linkedin.com/in/safae-rabbouzi-b80621209/">Safae Rabbouzi</a>
 
 ## Video
 
